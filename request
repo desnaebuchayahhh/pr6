@@ -1,0 +1,33 @@
+import requests
+
+def fetch_weather_sync(city):
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid=439d4b804bc8187953eb36d2a8c26a02&units=metric"
+    response = requests.get(url)
+    return response.json()
+
+def fetch_users_sync():
+    url = "https://jsonplaceholder.typicode.com/users"
+    response = requests.get(url)
+    return response.json()
+
+def main_sync():
+    city = "London"
+
+    weather_data = fetch_weather_sync(city)
+    users_data = fetch_users_sync()
+
+    
+    if weather_data.get("main"):
+        temp = weather_data["main"]["temp"]
+        desc = weather_data["weather"][0]["description"]
+        print(f"Синхронно: Погода в {city}: {temp}°C, {desc}")
+    else:
+        print("Синхронно: Не удалось получить данные о погоде.")
+
+    
+    print("\nСинхронно: Список пользователей:")
+    for user in users_data:
+        print(f"{user['id']}. {user['name']} - {user['email']}")
+
+if __name__ == "__main__":
+    main_sync()
